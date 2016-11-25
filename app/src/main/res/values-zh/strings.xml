@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">亮屏</string>
+    <string name="Allow_sleep">取消保持</string>
+    <string name="nothing_to_see_here">Nothing to see here…</string>
+    <string name="open_your_you_quick_settings_blurb">Look for the Wakeful icon in your quick settings drawer.</string>
+    <string name="notification_title">保持唤醒</string>
+    <string name="notification_content">你的屏幕将保持唤醒直到你关闭(点击关闭)</string>
+    <string name="tile_name">保持唤醒</string>
+</resources>

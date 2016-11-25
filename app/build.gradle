@@ -4,9 +4,15 @@ apply plugin: 'kotlin-android'
 // load in properties from keystore credentials file (not in git)
 apply from: '../gradle/keystore-plugin.gradle'
 
+ext {
+  VERSION_DATE = '25/11/16'
+  SUPPORT_LIBRARY_VERSION = '25.0.1'
+  BUILD_TOOLS = "25.0.0"
+}
+
 android {
-  compileSdkVersion 24
-  buildToolsVersion "23.0.3"
+  compileSdkVersion 25
+  buildToolsVersion BUILD_TOOLS
 
   signingConfigs {
     wakeful {
@@ -23,6 +29,7 @@ android {
     targetSdkVersion 24
     versionCode rootProject.gitInfo.commitCount
     versionName rootProject.gitInfo.latestTag
+    project.ext.set("archivesBaseName", "Wakeful_by_kunfei_" + VERSION_DATE.replaceAll("/", "_"));
   }
   buildTypes {
     debug {
