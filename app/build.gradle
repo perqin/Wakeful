@@ -8,7 +8,6 @@ def gitTag = 'git tag'.execute([], project.rootDir).text.trim().split("\n").last
 def gitCommits = Integer.parseInt('git rev-list --count HEAD'.execute([], project.rootDir).text.trim())
 
 ext {
-  VERSION_DATE = '25/11/16'
   SUPPORT_LIBRARY_VERSION = '25.0.1'
   BUILD_TOOLS = "25.0.0"
 }
@@ -32,7 +31,7 @@ android {
     targetSdkVersion 24
     versionCode 10000 + gitCommits
     versionName gitTag
-    project.ext.set("archivesBaseName", "Wakeful_by_kunfei_" + VERSION_DATE.replaceAll("/", "_"));
+    project.ext.set("archivesBaseName", "Wakeful_by_kunfei_" + gitTag);
   }
   buildTypes {
     debug {
