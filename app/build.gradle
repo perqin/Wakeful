@@ -8,12 +8,12 @@ def gitTag = 'git tag'.execute([], project.rootDir).text.trim().split("\n").last
 def gitCommits = Integer.parseInt('git rev-list --count HEAD'.execute([], project.rootDir).text.trim())
 
 ext {
-  SUPPORT_LIBRARY_VERSION = '25.0.1'
-  BUILD_TOOLS = "25.0.0"
+  SUPPORT_LIBRARY_VERSION = '26.0.1'
+  BUILD_TOOLS = "26.0.1"
 }
 
 android {
-  compileSdkVersion 25
+  compileSdkVersion 26
   buildToolsVersion BUILD_TOOLS
 
   signingConfigs {
@@ -28,7 +28,7 @@ android {
   defaultConfig {
     applicationId "com.bulwinkel.wakeful"
     minSdkVersion 24
-    targetSdkVersion 24
+    targetSdkVersion 26
     versionCode 10000 + gitCommits
     versionName gitTag
     project.ext.set("archivesBaseName", "Wakeful_by_kunfei_" + gitTag);

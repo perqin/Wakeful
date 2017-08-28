@@ -5,9 +5,10 @@ buildscript {
     jcenter()
     maven { url "https://jitpack.io" }
     maven { url "https://dl.bintray.com/kotlin/kotlin-eap"}
+      google()
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:3.0.0-alpha7'
+    classpath 'com.android.tools.build:gradle:3.0.0-beta3'
 
   }
 }
