@@ -122,14 +122,14 @@ class WakefulTileService : TileService() {
     val doneIntent = Intent(this, this.javaClass).setAction(ACTION_ALLOW_SLEEP)
     val donePendingIntent = PendingIntent.getService(this, ID_DONE_INTENT, doneIntent, FLAG_UPDATE_CURRENT);
 
-    val doneAction = Notification.Action.Builder(null, getString(R.string.Allow_sleep), donePendingIntent).build()
+//    val doneAction = Notification.Action.Builder(null, getString(R.string.Allow_sleep), donePendingIntent).build()
 
     val builder = Notification.Builder(this)
         .setSmallIcon(R.drawable.ic_notification_active)
         .setContentTitle(title)
         .setContentText(getString(R.string.notification_content))
         .setContentIntent(donePendingIntent)
-        .setActions(doneAction)
+//        .setActions(doneAction)
 
     startForeground(ID_NOTIFICATION, builder.build())
   }
@@ -141,13 +141,9 @@ class WakefulTileService : TileService() {
 
 private class WakefulBroadcastReceiver(service: WakefulTileService) : BroadcastReceiver() {
 
-  private val weakService: WeakReference<WakefulTileService>
+  private val weakService: WeakReference<WakefulTileService> = WeakReference(service)
 
-  init {
-    weakService = WeakReference(service)
-  }
-
-  override fun onReceive(p0: Context?, p1: Intent?) {
+    override fun onReceive(p0: Context?, p1: Intent?) {
     val service = weakService.get()
     logd { "onReceive: service == $service" }
     service?.releaseWakeLock()
