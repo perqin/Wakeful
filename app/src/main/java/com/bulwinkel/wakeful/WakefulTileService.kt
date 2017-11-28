@@ -31,6 +31,7 @@ class WakefulTileService : TileService() {
     private val ACTION_ALLOW_SLEEP = "ACTION_ALLOW_SLEEP"
 
     private val powerManager by lazy { getSystemService(Context.POWER_SERVICE) as PowerManager }
+    @Suppress("DEPRECATION")
     private val wakelock by lazy { powerManager.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "Wakeful") }
     private val broadcastReceiver by lazy { WakefulBroadcastReceiver(this) }
 
