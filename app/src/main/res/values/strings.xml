@@ -6,4 +6,5 @@
     <string name="notification_title">Wide awake</string>
     <string name="notification_content">Your screen won\'t sleep until you\'re ready(click will exit)</string>
     <string name="tile_name">Wakeful</string>
+    <string name="reminder">Reminder</string>
 </resources>

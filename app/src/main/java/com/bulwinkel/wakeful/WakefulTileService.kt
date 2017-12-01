@@ -164,7 +164,7 @@ class WakefulTileService : TileService() {
     fun createChannelId(channelId: String) {
         //用唯一的ID创建渠道对象
         val firstChannel = NotificationChannel(channelId,
-                "提醒",
+                getString(R.string.reminder),
                 NotificationManager.IMPORTANCE_LOW)
         //初始化channel
         firstChannel.enableLights(false)
