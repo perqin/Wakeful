@@ -1,6 +1,8 @@
 package com.bulwinkel.wakeful
 
-import android.app.Notification
+import android.annotation.SuppressLint
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_UPDATE_CURRENT
 import android.content.BroadcastReceiver
@@ -12,24 +14,15 @@ import android.os.Build
 import android.os.PowerManager
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
+import android.support.annotation.RequiresApi
+import android.support.v4.app.NotificationCompat
 import com.bulwinkel.tools.logd
 import com.bulwinkel.tools.loge
 import java.lang.ref.WeakReference
-import android.app.NotificationManager
-import android.app.NotificationChannel
-import android.app.NotificationChannelGroup
-import android.graphics.Color
-import android.support.annotation.RequiresApi
 
 
 
 class WakefulTileService : TileService() {
-
-    private val ID_NOTIFICATION = 1
-    private val ID_DONE_INTENT = 1001
-    private val ACTION_STAY_ALIVE = "ACTION_STAY_ALIVE"
-    private val ACTION_ALLOW_SLEEP = "ACTION_ALLOW_SLEEP"
-
     private val powerManager by lazy { getSystemService(Context.POWER_SERVICE) as PowerManager }
     @Suppress("DEPRECATION")
     private val wakelock by lazy { powerManager.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "Wakeful") }
@@ -49,6 +42,7 @@ class WakefulTileService : TileService() {
         tile.updateTile()
     }
 
+    @SuppressLint("WakelockTimeout")
     private fun acquireWakeLock() {
         val tile = qsTile
         if (tile != null) {
@@ -128,30 +122,20 @@ class WakefulTileService : TileService() {
         val title = getString(R.string.notification_title)
 
         val doneIntent = Intent(this, this.javaClass).setAction(ACTION_ALLOW_SLEEP)
-        val donePendingIntent = PendingIntent.getService(this, ID_DONE_INTENT, doneIntent, FLAG_UPDATE_CURRENT);
+        val donePendingIntent = PendingIntent.getService(this, ID_DONE_INTENT, doneIntent, FLAG_UPDATE_CURRENT)
 
-//    val doneAction = Notification.Action.Builder(null, getString(R.string.Allow_sleep), donePendingIntent).build()
+        val doneAction = NotificationCompat.Action.Builder(0, getString(R.string.Allow_sleep), donePendingIntent).build()
         val channelId = "channel_first"
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            createChannelId(channelId);
+            createChannelId(channelId)
         }
 
-        @Suppress("DEPRECATION")
-        val builder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Notification.Builder(this, channelId)
-                    .setSmallIcon(R.drawable.ic_notification_active)
-                    .setContentTitle(title)
-                    .setContentText(getString(R.string.notification_content))
-                    .setContentIntent(donePendingIntent)
-        } else {
-            Notification.Builder(this)
-                    .setSmallIcon(R.drawable.ic_notification_active)
-                    .setContentTitle(title)
-                    .setContentText(getString(R.string.notification_content))
-                    .setContentIntent(donePendingIntent)
-        }
-//        .setActions(doneAction)
+        val builder = NotificationCompat.Builder(this, channelId)
+                .setSmallIcon(R.drawable.ic_notification_active)
+                .setContentTitle(title)
+                .setContentText(getString(R.string.notification_content))
+                .addAction(doneAction)
 
         startForeground(ID_NOTIFICATION, builder.build())
     }
@@ -161,7 +145,7 @@ class WakefulTileService : TileService() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun createChannelId(channelId: String) {
+    private fun createChannelId(channelId: String) {
         //用唯一的ID创建渠道对象
         val firstChannel = NotificationChannel(channelId,
                 getString(R.string.reminder),
@@ -173,6 +157,13 @@ class WakefulTileService : TileService() {
         //向notification manager 提交channel
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(firstChannel)
+    }
+
+    companion object {
+        private const val ID_NOTIFICATION = 1
+        private const val ID_DONE_INTENT = 1001
+        private const val ACTION_STAY_ALIVE = "ACTION_STAY_ALIVE"
+        private const val ACTION_ALLOW_SLEEP = "ACTION_ALLOW_SLEEP"
     }
 }
 
