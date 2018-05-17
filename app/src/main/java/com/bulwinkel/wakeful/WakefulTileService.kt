@@ -31,7 +31,6 @@ class WakefulTileService : TileService() {
     private val ACTION_ALLOW_SLEEP = "ACTION_ALLOW_SLEEP"
 
     private val powerManager by lazy { getSystemService(Context.POWER_SERVICE) as PowerManager }
-    @Suppress("DEPRECATION")
     private val wakelock by lazy { powerManager.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "Wakeful") }
     private val broadcastReceiver by lazy { WakefulBroadcastReceiver(this) }
 
@@ -129,15 +128,12 @@ class WakefulTileService : TileService() {
 
         val doneIntent = Intent(this, this.javaClass).setAction(ACTION_ALLOW_SLEEP)
         val donePendingIntent = PendingIntent.getService(this, ID_DONE_INTENT, doneIntent, FLAG_UPDATE_CURRENT);
-
-//    val doneAction = Notification.Action.Builder(null, getString(R.string.Allow_sleep), donePendingIntent).build()
         val channelId = "channel_first"
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createChannelId(channelId);
         }
 
-        @Suppress("DEPRECATION")
         val builder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             Notification.Builder(this, channelId)
                     .setSmallIcon(R.drawable.ic_notification_active)

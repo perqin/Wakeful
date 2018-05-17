@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
 
 // load in properties from keystore credentials file (not in git)
 apply from: '../gradle/keystore-plugin.gradle'
@@ -13,13 +12,12 @@ ext {
 }
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion BUILD_TOOLS
+    compileSdkVersion 27
 
     defaultConfig {
         applicationId "com.gedoor.wakeful"
         minSdkVersion 24
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 10000 + gitCommits
         versionName gitTag
         project.ext.set("archivesBaseName", "Wakeful_by_kunfei_" + gitTag);
@@ -38,13 +36,14 @@ android {
     }
 
     compileOptions.incremental = false // for kotlin
+    buildToolsVersion '27.0.3'
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.1.61'
-    implementation 'com.android.support:support-v4:26.1.0'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    testImplementation 'junit:junit:4.12'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.2.0'
+    implementation 'com.android.support:support-v4:27.1.1'
 }
 
 buildscript {
@@ -53,7 +52,7 @@ buildscript {
         maven { url "https://dl.bintray.com/kotlin/kotlin-eap" }
     }
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.1.61"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.0"
     }
 }
 repositories {
