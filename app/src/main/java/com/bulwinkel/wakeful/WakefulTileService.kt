@@ -24,7 +24,6 @@ import java.lang.ref.WeakReference
 
 class WakefulTileService : TileService() {
     private val powerManager by lazy { getSystemService(Context.POWER_SERVICE) as PowerManager }
-    @Suppress("DEPRECATION")
     private val wakelock by lazy { powerManager.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "Wakeful") }
     private val broadcastReceiver by lazy { WakefulBroadcastReceiver(this) }
 
@@ -123,7 +122,6 @@ class WakefulTileService : TileService() {
 
         val doneIntent = Intent(this, this.javaClass).setAction(ACTION_ALLOW_SLEEP)
         val donePendingIntent = PendingIntent.getService(this, ID_DONE_INTENT, doneIntent, FLAG_UPDATE_CURRENT)
-
         val doneAction = NotificationCompat.Action.Builder(0, getString(R.string.Allow_sleep), donePendingIntent).build()
         val channelId = "channel_first"
 

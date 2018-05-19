@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
 
 // load in properties from keystore credentials file (not in git)
 apply from: '../gradle/keystore-plugin.gradle'
@@ -7,13 +6,10 @@ apply from: '../gradle/keystore-plugin.gradle'
 def gitTag = 'git tag'.execute([], project.rootDir).text.trim().split("\n").last()
 def gitCommits = Integer.parseInt('git rev-list --count HEAD'.execute([], project.rootDir).text.trim())
 
-ext {
-    BUILD_TOOLS = "27.0.3"
-}
 
 android {
     compileSdkVersion 27
-    buildToolsVersion BUILD_TOOLS
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         applicationId "com.gedoor.wakeful"
@@ -37,24 +33,14 @@ android {
     }
 
     compileOptions.incremental = false // for kotlin
+    
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     testImplementation 'junit:junit:4.12'
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.2.20-eap-33'
-    implementation 'com.android.support:support-v4:27.0.2'
+
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.2.41'
+    implementation 'com.android.support:support-v4:27.1.1'
 }
 
-buildscript {
-    repositories {
-        mavenCentral()
-        maven { url "https://dl.bintray.com/kotlin/kotlin-eap" }
-    }
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.20-eap-33"
-    }
-}
-repositories {
-    mavenCentral()
-}
