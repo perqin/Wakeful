@@ -6,11 +6,6 @@ apply from: '../gradle/keystore-plugin.gradle'
 def gitTag = 'git tag'.execute([], project.rootDir).text.trim().split("\n").last()
 def gitCommits = Integer.parseInt('git rev-list --count HEAD'.execute([], project.rootDir).text.trim())
 
-ext {
-    SUPPORT_LIBRARY_VERSION = '26.0.2'
-    BUILD_TOOLS = "26.0.2"
-}
-
 android {
     compileSdkVersion 27
 
@@ -42,19 +37,7 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     testImplementation 'junit:junit:4.12'
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.2.0'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.2.41'
     implementation 'com.android.support:support-v4:27.1.1'
 }
 
-buildscript {
-    repositories {
-        mavenCentral()
-        maven { url "https://dl.bintray.com/kotlin/kotlin-eap" }
-    }
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.0"
-    }
-}
-repositories {
-    mavenCentral()
-}
